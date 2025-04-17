@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- res/drawable/border.xml -->
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@android:color/transparent" />
-    <stroke
-        android:width="2dp"
-        android:color="#E1BEE7" /> <!-- 원하는 색상으로 -->
-    <corners android:radius="4dp" /> <!-- 선택사항 -->
-</shape>
+<!-- res/drawable/top_border_only.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Top border -->
+    <item android:top="0dp">
+        <shape android:shape="rectangle">
+            <size android:height="1dp" />
+            <solid android:color="#B3B3B3" />
+        </shape>
+    </item>
+
+    <!-- Background (optional) -->
+    <item android:top="1dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/white" />
+        </shape>
+    </item>
+</layer-list>

@@ -1,34 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/dateLL"
-    android:layout_width="48dp"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:background="@drawable/border">
+    android:layout_width="match_parent"
+    android:layout_height="130dp"
+    android:adjustViewBounds="true"
+    android:background="@drawable/border"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/text_date"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center_horizontal"
         android:text="1"
-        android:textSize="16sp" />
+        android:textSize="7sp"
+        android:textColor="@color/black"/>
 
-    <TextView
-        android:id="@+id/plan_date"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="0"
-        android:textSize="16sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/carry_date"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="0"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/plan_date"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="10sp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/carry_date"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="10sp"
+            android:textColor="@color/black" />
+    </LinearLayout>
 
 </LinearLayout>
