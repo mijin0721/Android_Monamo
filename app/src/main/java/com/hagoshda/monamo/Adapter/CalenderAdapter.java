@@ -1,7 +1,5 @@
 package com.hagoshda.monamo.Adapter;
 
-import static android.view.View.GONE;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -84,7 +82,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.DateVi
     @Override
     public void onBindViewHolder(@NonNull CalenderAdapter.DateViewHolder holder, int position) {
         for (int i = 0; i < holder.weekendImages.length; i++) { //todo item_calender에서 imageview가 weekend_tv 보다 아래로 내리기
-            holder.weekendImages[i].setVisibility(GONE);
+            holder.weekendImages[i].setVisibility(View.GONE);
         }
 
         for (int i = 0; i < holder.weekendTextList.size(); i++) { //todo textviewlist 다 검정색으로 바꾸기
@@ -180,7 +178,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.DateVi
         Log.d("", "weekPer:"+weekPer);
 
         if (weekPer == 5) {
-            holder.weekend_6.setVisibility(GONE);
+            holder.weekend_6.setVisibility(View.GONE);
         }
 
         if (weekPer == 6) {
