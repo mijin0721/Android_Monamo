@@ -1,7 +1,11 @@
 package com.hagoshda.monamo;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvYearMonth;
     private CalenderAdapter calenderAdapter;
 
+    private ImageButton today_ib;
+
     private Calendar calendar;
 
     private int lastDx = 0;
@@ -35,15 +41,26 @@ public class MainActivity extends AppCompatActivity {
         initView();
         setCalenderRecycler();
         detectCalenderRecycler();
+        OnClick();
     }
     
     public void setTextViewYearMonth(int year, int month) {
         tvYearMonth.setText(year+"년 " + month+ "월");
     }
 
+    private void OnClick() {
+        today_ib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calenderAdapter.setToday();
+            }
+        });
+    }
+
     private void initView() {
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
         tvYearMonth = findViewById(R.id.tv_year_month);
+        today_ib = findViewById(R.id.today_ib);
     }
 
     private void setCalenderRecycler() {

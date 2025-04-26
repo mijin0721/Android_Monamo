@@ -39,6 +39,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/baseline_today_24"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:id="@+id/today_ib"
                 android:contentDescription="사진 버튼" />
 
         </LinearLayout>

@@ -53,6 +53,14 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.DateVi
         calenderAdapterViewModel = new CalenderAdapterViewModel(calendar, context, month);
     }
 
+    public void setToday() {
+        this.month = localDate.getMonthValue();
+        this.year = localDate.getYear();
+
+        ((MainActivity) context).setTextViewYearMonth(year, month);
+        updateWeekendTexts();
+    }
+
     public void setMonthP() {
         this.month = ++this.month;
         if (this.month > 12) {
