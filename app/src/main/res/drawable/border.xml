@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/drawable/border.xml -->
+<!-- res/drawable/top_border_only.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Top border -->
+    <item android:top="0dp">
+        <shape android:shape="rectangle">
+            <size android:height="1dp" />
+            <solid android:color="#B3B3B3" />
+        </shape>
+    </item>
+
+    <!-- Background (optional) -->
+    <item android:top="1dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/white" />
+        </shape>
+    </item>
+</layer-list>
