@@ -2757,6 +2757,14 @@
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:id="@+id/calender_review_tv"
+            android:gravity="center"
+            android:textColor="@color/black"/>
+
     </LinearLayout>
 
 

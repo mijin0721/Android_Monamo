@@ -38,15 +38,17 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.DateVi
     private int month;
     private int year;
 
+    private LocalDate localDate;
+
     private ArrayList<String> dayList = new ArrayList<>();
 
     public CalenderAdapter(Calendar calendar, Context context) {
         this.context = context;
         moneyViewModel = new MoneyViewModel(context);
 
-        LocalDate today = LocalDate.now();
-        year = today.getYear();
-        month = today.getMonthValue();
+        localDate = LocalDate.now();
+        year = localDate.getYear();
+        month = localDate.getMonthValue();
 
         calenderAdapterViewModel = new CalenderAdapterViewModel(calendar, context, month);
     }
@@ -105,6 +107,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.DateVi
 
     public class DateViewHolder extends RecyclerView.ViewHolder {
         LinearLayout calender_LL;
+        TextView calender_review_tv;
         LinearLayout weekend_1;
         LinearLayout weekend_2;
         LinearLayout weekend_3;
@@ -120,6 +123,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.DateVi
         public DateViewHolder(@NonNull View itemView) {
             super(itemView);
             calender_LL = itemView.findViewById(R.id.calender_LL);
+            calender_review_tv = itemView.findViewById(R.id.calender_review_tv);
             weekend_1 = itemView.findViewById(R.id.weekend_1);
             weekend_2 = itemView.findViewById(R.id.weekend_2);
             weekend_3 = itemView.findViewById(R.id.weekend_3);
@@ -175,13 +179,10 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.DateVi
 
     private void initCalenderDayView(CalenderAdapter.DateViewHolder holder) {
         int weekPer = calenderAdapterViewModel.getWeekendPerMonth(year, month);
-        Log.d("", "weekPer:"+weekPer);
 
         if (weekPer == 5) {
             holder.weekend_6.setVisibility(View.GONE);
-        }
-
-        if (weekPer == 6) {
+        } else if (weekPer == 6) {
             holder.weekend_6.setVisibility(View.VISIBLE);
         }
 
@@ -192,9 +193,23 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.DateVi
                 holder.weekendTexts[i].setText(dayList.get(i));
             }
 
-            String today = MoneyMemo.formatDate(year, month - 1, Integer.parseInt(dayList.get(i)));
+            String today = MoneyMemo.formatDate(year, month-1, Integer.parseInt(dayList.get(i)));
             MoneyMemo money = moneyViewModel.getMemo(today);
             setTextViewMoneyList(holder, i, money);
+        }
+
+        setReviewTextView(holder, year, month-1, localDate.getDayOfMonth());
+    }
+
+    private void setReviewTextView(CalenderAdapter.DateViewHolder holder, int year, int month, int day) {
+        String plan =  "📝: " +  moneyViewModel.getMonthPlan(year, month);
+        String planToday = "📝to" + day + ": " + moneyViewModel.getMonthPlanToToday(year, month, day);
+        String carry = "💸: " + moneyViewModel.getMonthCarry(year, month);
+
+        if (month == localDate.getMonthValue()-1) {
+            holder.calender_review_tv.setText(plan + "    " + planToday + "    " + carry);
+        } else {
+            holder.calender_review_tv.setText(plan + "    " + carry);
         }
     }
 
@@ -208,6 +223,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.DateVi
                     showMemoDialog(key, () -> {
                         MoneyMemo money = moneyViewModel.getMemo(key);
                         setTextViewMoneyList(holder, finalI, money);
+                        setReviewTextView(holder, year,month-1, localDate.getDayOfMonth());
                     });
                 });
             }
