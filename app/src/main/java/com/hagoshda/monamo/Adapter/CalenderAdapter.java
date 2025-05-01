@@ -91,6 +91,8 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.DateVi
 
     @Override
     public void onBindViewHolder(@NonNull CalenderAdapter.DateViewHolder holder, int position) {
+        ((MainActivity) context).setTextViewYearMonth(year, month);
+
         for (int i = 0; i < holder.weekendImages.length; i++) { //todo item_calender에서 imageview가 weekend_tv 보다 아래로 내리기
             holder.weekendImages[i].setVisibility(View.GONE);
         }
