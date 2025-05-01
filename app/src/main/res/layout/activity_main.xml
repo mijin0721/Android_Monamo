@@ -25,6 +25,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginRight="20dp"
+                android:layout_marginBottom="15dp"
                 android:orientation="horizontal">
 
                 <ImageButton
@@ -35,10 +36,14 @@
                     android:contentDescription="사진 버튼"
                     android:src="@drawable/baseline_menu_24" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
+                <TextView
+                    android:id="@+id/memo_title_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:layout_weight="1"/>
 
                 <ImageButton
                     android:id="@+id/today_ib"
@@ -52,10 +57,10 @@
 
             <TextView
                 android:id="@+id/tv_year_month"
+                android:layout_marginBottom="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="2025년 4월"
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold" />

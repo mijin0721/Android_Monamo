@@ -7,7 +7,7 @@ import com.hagoshda.monamo.Model.MoneyMemo;
 
 public class MoneyViewModel {
 
-    private static final String PREF_NAME = "MemoApp";
+    private static final String PREF_NAME = "MoneyMeno";
     private final SharedPreferences preferences;
 
     public MoneyViewModel(Context context) {

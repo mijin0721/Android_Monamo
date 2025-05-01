@@ -18,9 +18,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hagoshda.monamo.MainActivity;
+import com.hagoshda.monamo.Model.MemoList;
 import com.hagoshda.monamo.Model.MoneyMemo;
 import com.hagoshda.monamo.R;
 import com.hagoshda.monamo.ViewModel.CalenderAdapterViewModel;
+import com.hagoshda.monamo.ViewModel.MemoListViewModel;
 import com.hagoshda.monamo.ViewModel.MoneyViewModel;
 import com.hagoshda.monamo.callback.OnMemoSavedListener;
 
@@ -33,7 +35,8 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.DateVi
 
     private Context context;
     private CalenderAdapterViewModel calenderAdapterViewModel;
-    private MoneyViewModel moneyViewModel;
+    private MemoListViewModel memoListViewModel;
+    private MemoList memoList;
 
     private int month;
     private int year;
@@ -42,15 +45,22 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.DateVi
 
     private ArrayList<String> dayList = new ArrayList<>();
 
-    public CalenderAdapter(Calendar calendar, Context context) {
+    public CalenderAdapter(Calendar calendar, Context context, MemoList memoList) {
         this.context = context;
-        moneyViewModel = new MoneyViewModel(context);
+        memoListViewModel = new MemoListViewModel(context);
 
         localDate = LocalDate.now();
         year = localDate.getYear();
         month = localDate.getMonthValue();
 
+        this.memoList = memoList;
+
         calenderAdapterViewModel = new CalenderAdapterViewModel(calendar, context, month);
+    }
+
+    public void setMemoList(int i) {
+        this.memoList = memoListViewModel.getMemoList(i);
+        updateWeekendTexts();
     }
 
     public void setToday() {
@@ -92,6 +102,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.DateVi
     @Override
     public void onBindViewHolder(@NonNull CalenderAdapter.DateViewHolder holder, int position) {
         ((MainActivity) context).setTextViewYearMonth(year, month);
+        ((MainActivity) context).setMemoTitle(memoList.getTitle());
 
         for (int i = 0; i < holder.weekendImages.length; i++) { //todo item_calender에서 imageview가 weekend_tv 보다 아래로 내리기
             holder.weekendImages[i].setVisibility(View.GONE);
@@ -106,7 +117,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.DateVi
         if (calenderAdapterViewModel.checkMonth(month)) {
             dayList = calenderAdapterViewModel.initCalender(year, month);
             initCalenderDayView(holder);
-            clickShowMemo(holder);
+//            clickShowMemo(holder);
         }
     }
 
@@ -203,14 +214,15 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.DateVi
                 holder.weekendTexts[i].setText(dayList.get(i));
             }
 
-            String today = MoneyMemo.formatDate(year, month-1, Integer.parseInt(dayList.get(i)));
-            MoneyMemo money = moneyViewModel.getMemo(today);
-            setTextViewMoneyList(holder, i, money);
+//            String today = MoneyMemo.formatDate(year, month-1, Integer.parseInt(dayList.get(i)));
+//            MoneyMemo money = moneyViewModel.getMemo(today);
+//            setTextViewMoneyList(holder, i, money);
         }
 
-        setReviewTextView(holder, year, month-1, localDate.getDayOfMonth());
+//        setReviewTextView(holder, year, month-1, localDate.getDayOfMonth());
     }
 
+    /*
     private void setReviewTextView(CalenderAdapter.DateViewHolder holder, int year, int month, int day) {
         String plan =  "📝: " +  moneyViewModel.getMonthPlan(year, month);
         String planToday = "📝to" + day + ": " + moneyViewModel.getMonthPlanToToday(year, month, day);
@@ -295,4 +307,6 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.DateVi
         builder.setNegativeButton("취소", null);
         builder.show();
     }
+
+     */
 }
