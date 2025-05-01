@@ -59,6 +59,9 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.DateVi
     }
 
     public void setMemoList(int i) {
+        this.month = localDate.getMonthValue();
+        this.year = localDate.getYear();
+
         this.memoList = memoListViewModel.getMemoList(i);
         updateWeekendTexts();
     }
