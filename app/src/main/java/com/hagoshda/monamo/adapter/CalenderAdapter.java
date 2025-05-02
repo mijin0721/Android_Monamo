@@ -1,35 +1,26 @@
-package com.hagoshda.monamo.Adapter;
+package com.hagoshda.monamo.adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hagoshda.monamo.MainActivity;
-import com.hagoshda.monamo.Model.MemoList;
-import com.hagoshda.monamo.Model.MoneyMemo;
+import com.hagoshda.monamo.model.MemoList;
 import com.hagoshda.monamo.R;
-import com.hagoshda.monamo.ViewModel.CalenderAdapterViewModel;
-import com.hagoshda.monamo.ViewModel.MemoListViewModel;
-import com.hagoshda.monamo.ViewModel.MoneyViewModel;
-import com.hagoshda.monamo.callback.OnMemoSavedListener;
+import com.hagoshda.monamo.viewModel.CalenderAdapterViewModel;
+import com.hagoshda.monamo.viewModel.MemoListViewModel;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Objects;
 
 public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.DateViewHolder>{
 

@@ -1,9 +1,9 @@
-package com.hagoshda.monamo.ViewModel;
+package com.hagoshda.monamo.viewModel;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.hagoshda.monamo.Model.MemoList;
+import com.hagoshda.monamo.model.MemoList;
 
 public class MemoListViewModel {
     private static final String PREF_NAME = "MenoList";

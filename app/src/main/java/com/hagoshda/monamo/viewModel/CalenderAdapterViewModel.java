@@ -1,4 +1,4 @@
-package com.hagoshda.monamo.ViewModel;
+package com.hagoshda.monamo.viewModel;
 
 import android.content.Context;
 

@@ -7,9 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,9 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import com.google.android.material.navigation.NavigationView;
-import com.hagoshda.monamo.Adapter.CalenderAdapter;
-import com.hagoshda.monamo.Model.MemoList;
-import com.hagoshda.monamo.ViewModel.MemoListViewModel;
+import com.hagoshda.monamo.adapter.CalenderAdapter;
+import com.hagoshda.monamo.model.MemoList;
+import com.hagoshda.monamo.viewModel.MemoListViewModel;
 
 import java.util.Calendar;
 

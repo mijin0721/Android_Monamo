@@ -1,4 +1,4 @@
-package com.hagoshda.monamo.Model;
+package com.hagoshda.monamo.model;
 
 public class MoneyMemo {
     private String day = "";

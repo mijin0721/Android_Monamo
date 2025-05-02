@@ -1,9 +1,9 @@
-package com.hagoshda.monamo.ViewModel;
+package com.hagoshda.monamo.viewModel;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.hagoshda.monamo.Model.MoneyMemo;
+import com.hagoshda.monamo.model.MoneyMemo;
 
 public class MoneyViewModel {
 
