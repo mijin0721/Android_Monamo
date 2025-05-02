@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import com.google.android.material.navigation.NavigationView;
-import com.hagoshda.monamo.adapter.CalenderAdapter;
+import com.hagoshda.monamo.adapter.CalenderMonthAdapter;
 import com.hagoshda.monamo.model.MemoList;
 import com.hagoshda.monamo.viewModel.MemoListViewModel;
 
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView calendarRecyclerView;
     private TextView tvYearMonth;
     private TextView memoTitleTv;
-    private CalenderAdapter calenderAdapter;
+    private CalenderMonthAdapter calenderMonthAdapter;
 
     private ImageButton today_ib;
     private DrawerLayout drawerLayout;
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                calenderAdapter.setMemoList(item.getItemId());
+                calenderMonthAdapter.setMemoList(item.getItemId());
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             }
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         today_ib.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                calenderAdapter.setToday();
+                calenderMonthAdapter.setToday();
             }
         });
     }
@@ -116,8 +116,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void setCalenderRecycler() {
         calendarRecyclerView.setLayoutManager(new GridLayoutManager(this, 1));
-        calenderAdapter = new CalenderAdapter(calendar, this, memoListViewModel.getMemoList(0));
-        calendarRecyclerView.setAdapter(calenderAdapter);
+        calenderMonthAdapter = new CalenderMonthAdapter(calendar, this, memoListViewModel.getMemoList(0));
+        calendarRecyclerView.setAdapter(calenderMonthAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         calendarRecyclerView.setLayoutManager(layoutManager);
         SnapHelper snapHelper = new PagerSnapHelper();
@@ -142,9 +142,9 @@ public class MainActivity extends AppCompatActivity {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     if (lastDx > 0) {
-                        calenderAdapter.setMonthP();
+                        calenderMonthAdapter.setMonthP();
                     } else if (lastDx < 0) {
-                        calenderAdapter.setMonthM();
+                        calenderMonthAdapter.setMonthM();
                     }
                 }
             }

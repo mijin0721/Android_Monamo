@@ -22,7 +22,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.DateViewHolder>{
+public class CalenderMonthAdapter extends RecyclerView.Adapter<CalenderMonthAdapter.DateViewHolder>{
 
     private Context context;
     private CalenderAdapterViewModel calenderAdapterViewModel;
@@ -36,7 +36,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.DateVi
 
     private ArrayList<String> dayList = new ArrayList<>();
 
-    public CalenderAdapter(Calendar calendar, Context context, MemoList memoList) {
+    public CalenderMonthAdapter(Calendar calendar, Context context, MemoList memoList) {
         this.context = context;
         memoListViewModel = new MemoListViewModel(context);
 
@@ -87,14 +87,14 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.DateVi
 
     @NonNull
     @Override
-    public CalenderAdapter.DateViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CalenderMonthAdapter.DateViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_calender, parent, false);
         return new DateViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CalenderAdapter.DateViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CalenderMonthAdapter.DateViewHolder holder, int position) {
         ((MainActivity) context).setTextViewYearMonth(year, month);
         ((MainActivity) context).setMemoTitle(memoList.getTitle());
 
@@ -192,7 +192,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.DateVi
         notifyDataSetChanged();
     }
 
-    private void initCalenderDayView(CalenderAdapter.DateViewHolder holder) {
+    private void initCalenderDayView(CalenderMonthAdapter.DateViewHolder holder) {
         int weekPer = calenderAdapterViewModel.getWeekendPerMonth(year, month);
 
         if (weekPer == 5) {
