@@ -83,6 +83,11 @@ public class MainActivity extends AppCompatActivity {
     public void setTextViewYearMonth(int year, int month) {
         tvYearMonth.setText(year+"년 " + month+ "월");
     }
+    
+    public void setTextViewYearMonthWeek(int year, int month, int week) {
+        ++week;
+        tvYearMonth.setText(year+"년 " + month+ "월 " + week + "주");
+    }
 
     public void setMemoTitle(String title) {
         memoTitleTv.setText(title);
@@ -128,7 +133,11 @@ public class MainActivity extends AppCompatActivity {
         today_ib.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                calenderMonthAdapter.setToday();
+                if (selectDate == SelectDate.MONTH) {
+                    calenderMonthAdapter.setToday();
+                } else if (selectDate == SelectDate.WEEK) {
+                    calenderWeekAdapter.setToday();
+                }
             }
         });
     }

@@ -36,6 +36,21 @@ public class CalenderWeekAdapter extends RecyclerView.Adapter<CalenderWeekAdapte
     private LocalDate localDate;
 
     private ArrayList<String> dayList = new ArrayList<>();
+
+    public void setToday() {
+        localDate = LocalDate.now();
+        year = localDate.getYear();
+        month = localDate.getMonthValue();
+        day = localDate.getDayOfMonth();
+
+        int rows = 7;
+        int index = dayList.indexOf(String.valueOf(day));
+        week = (index / rows);
+
+        ((MainActivity) context).setTextViewYearMonthWeek(year, month, week);
+        updateWeekendTexts();
+    }
+
     public void setWeekP() {
         this.week = ++week;
         if (calenderAdapterViewModel.getWeekendPerMonth(year, month) <= week) {
@@ -46,6 +61,7 @@ public class CalenderWeekAdapter extends RecyclerView.Adapter<CalenderWeekAdapte
             this.year = ++this.year;
             this.month = 1;
         }
+        ((MainActivity) context).setTextViewYearMonthWeek(year, month, week);
         updateWeekendTexts();
     }
 
@@ -59,6 +75,7 @@ public class CalenderWeekAdapter extends RecyclerView.Adapter<CalenderWeekAdapte
             this.year = --this.year;
             this.month = 12;
         }
+        ((MainActivity) context).setTextViewYearMonthWeek(year, month, week);
         updateWeekendTexts();
     }
     public CalenderWeekAdapter(Calendar calendar, Context context, MemoList memoList) {
@@ -88,6 +105,8 @@ public class CalenderWeekAdapter extends RecyclerView.Adapter<CalenderWeekAdapte
     @Override
     public void onBindViewHolder(@NonNull CalenderWeekAdapter.DateViewHolder holder, int position) {
         dayList = calenderAdapterViewModel.initCalender(year, month);
+        ((MainActivity) context).setTextViewYearMonthWeek(year, month, week);
+
         if (!check) {
             int rows = 7;
             int index = dayList.indexOf(String.valueOf(day));
