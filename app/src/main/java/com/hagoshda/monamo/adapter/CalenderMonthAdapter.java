@@ -89,7 +89,7 @@ public class CalenderMonthAdapter extends RecyclerView.Adapter<CalenderMonthAdap
     @Override
     public CalenderMonthAdapter.DateViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_calender, parent, false);
+                .inflate(R.layout.item_month_calender, parent, false);
         return new DateViewHolder(view);
     }
 

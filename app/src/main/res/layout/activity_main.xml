@@ -46,18 +46,21 @@
                     android:gravity="center">
 
                     <Button
+                        android:id="@+id/select_day_bt"
                         android:layout_width="20dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="D"/>
 
                     <Button
+                        android:id="@+id/select_week_bt"
                         android:layout_width="20dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="W"/>
 
                     <Button
+                        android:id="@+id/select_month_bt"
                         android:layout_width="20dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -109,6 +112,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/weekend_name_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
