@@ -1,6 +1,7 @@
 package com.hagoshda.monamo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     private LinearLayout weekend_name_ll;
     private ImageButton today_ib;
+    private ImageButton setting_ib;
     private Button selectDay_tb;
     private Button selectWeek_tb;
     private Button selectMonth_tb;
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         detectCalenderRecycler();
         TodayOnClick();
         SelectOnClick();
+        setOnClickSetting();
     }
     
     public void setTextViewYearMonth(int year, int month) {
@@ -194,6 +197,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void setOnClickSetting() {
+        setting_ib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
     private void initView() {
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
         tvYearMonth = findViewById(R.id.tv_year_month);
@@ -203,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
         selectDay_tb = findViewById(R.id.select_day_bt);
         selectWeek_tb = findViewById(R.id.select_week_bt);
         selectMonth_tb = findViewById(R.id.select_month_bt);
+        setting_ib = findViewById(R.id.setting_ib);
     }
 
     private void setCalenderRecycler() {
