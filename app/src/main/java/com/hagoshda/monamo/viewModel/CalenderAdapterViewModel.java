@@ -2,6 +2,8 @@ package com.hagoshda.monamo.viewModel;
 
 import android.content.Context;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -57,6 +59,25 @@ public class CalenderAdapterViewModel {
         }
         return dayList;
     }
+
+    public ArrayList<String> generateMonthCalendar(int year, int month) {
+        ArrayList<String> dayList = new ArrayList<>();
+
+        // 해당 월의 첫 날
+        LocalDate firstDayOfMonth = LocalDate.of(year, month, 1);
+
+        // 해당 월의 첫 주 일요일 구하기
+        DayOfWeek dayOfWeek = firstDayOfMonth.getDayOfWeek();
+        LocalDate startDate = firstDayOfMonth.minusDays(dayOfWeek.getValue() % 7); // 일요일 기준
+
+        // 6주(42일)치 채우기
+        for (int i = 0; i < 42; i++) {
+            dayList.add(String.valueOf(startDate.plusDays(i).getDayOfMonth()));
+        }
+
+        return dayList;
+    }
+
 
     public int getWeekendPerMonth(int year, int month) {
         calendar.set(Calendar.YEAR, year);

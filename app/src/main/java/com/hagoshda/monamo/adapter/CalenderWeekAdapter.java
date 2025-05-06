@@ -53,7 +53,7 @@ public class CalenderWeekAdapter extends RecyclerView.Adapter<CalenderWeekAdapte
 
     public void setWeekP() {
         this.week = ++week;
-        if (calenderAdapterViewModel.getWeekendPerMonth(year, month) <= week) {
+        if (calenderAdapterViewModel.getWeekendPerMonth(year, month)-1 <= week) {
             this.month = ++this.month;
             this.week = 0;
         }
@@ -67,7 +67,7 @@ public class CalenderWeekAdapter extends RecyclerView.Adapter<CalenderWeekAdapte
 
     public void setWeekM() {
         this.week = --week;
-        if (0 > week) {
+        if (1 > week) {
             this.month = --this.month;
             this.week = calenderAdapterViewModel.getWeekendPerMonth(year, month) - 1;
         }
@@ -104,7 +104,7 @@ public class CalenderWeekAdapter extends RecyclerView.Adapter<CalenderWeekAdapte
 
     @Override
     public void onBindViewHolder(@NonNull CalenderWeekAdapter.DateViewHolder holder, int position) {
-        dayList = calenderAdapterViewModel.initCalender(year, month);
+        dayList = calenderAdapterViewModel.generateMonthCalendar(year, month);
         ((MainActivity) context).setTextViewYearMonthWeek(year, month, week);
 
         if (!check) {
