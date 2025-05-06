@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import com.google.android.material.navigation.NavigationView;
+import com.hagoshda.monamo.adapter.CalenderDayAdapter;
 import com.hagoshda.monamo.adapter.CalenderMonthAdapter;
 import com.hagoshda.monamo.adapter.CalenderWeekAdapter;
 import com.hagoshda.monamo.model.MemoList;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView memoTitleTv;
     private CalenderMonthAdapter calenderMonthAdapter;
     private CalenderWeekAdapter calenderWeekAdapter;
+    private CalenderDayAdapter calenderDayAdapter;
 
     private LinearLayout weekend_name_ll;
     private ImageButton today_ib;
@@ -137,6 +139,8 @@ public class MainActivity extends AppCompatActivity {
                     calenderMonthAdapter.setToday();
                 } else if (selectDate == SelectDate.WEEK) {
                     calenderWeekAdapter.setToday();
+                } else if (selectDate == SelectDate.DAY) {
+                    calenderDayAdapter.setToday();
                 }
             }
         });
@@ -146,27 +150,36 @@ public class MainActivity extends AppCompatActivity {
         selectDay_tb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (selectDate != SelectDate.DAY) {
+                    selectDate = SelectDate.DAY;
+                    weekend_name_ll.setVisibility(View.GONE);
+                    calendarRecyclerView.setAdapter(calenderDayAdapter);
+                    calendarRecyclerView.scrollToPosition(Integer.MAX_VALUE / 2);
+                }
             }
         });
 
         selectWeek_tb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectDate = SelectDate.WEEK;
-                weekend_name_ll.setVisibility(View.GONE);
-                calendarRecyclerView.setAdapter(calenderWeekAdapter);
-                calendarRecyclerView.scrollToPosition(Integer.MAX_VALUE / 2);
+                if (selectDate != SelectDate.WEEK) {
+                    selectDate = SelectDate.WEEK;
+                    weekend_name_ll.setVisibility(View.GONE);
+                    calendarRecyclerView.setAdapter(calenderWeekAdapter);
+                    calendarRecyclerView.scrollToPosition(Integer.MAX_VALUE / 2);
+                }
             }
         });
 
         selectMonth_tb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectDate = SelectDate.MONTH;
-                weekend_name_ll.setVisibility(View.VISIBLE);
-                calendarRecyclerView.setAdapter(calenderMonthAdapter);
-                calendarRecyclerView.scrollToPosition(Integer.MAX_VALUE / 2);
+                if (selectDate != SelectDate.MONTH) {
+                    selectDate = SelectDate.MONTH;
+                    weekend_name_ll.setVisibility(View.VISIBLE);
+                    calendarRecyclerView.setAdapter(calenderMonthAdapter);
+                    calendarRecyclerView.scrollToPosition(Integer.MAX_VALUE / 2);
+                }
             }
         });
     }
@@ -186,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
         calendarRecyclerView.setLayoutManager(new GridLayoutManager(this, 1));
         calenderMonthAdapter = new CalenderMonthAdapter(calendar, this, memoListViewModel.getMemoList(0));
         calenderWeekAdapter = new CalenderWeekAdapter(calendar, this, memoListViewModel.getMemoList(0));
+        calenderDayAdapter = new CalenderDayAdapter(calendar, this, memoListViewModel.getMemoList(0));
         calendarRecyclerView.setAdapter(calenderMonthAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         calendarRecyclerView.setLayoutManager(layoutManager);
@@ -215,12 +229,16 @@ public class MainActivity extends AppCompatActivity {
                             calenderMonthAdapter.setMonthP();
                         } else if (selectDate == SelectDate.WEEK) {
                             calenderWeekAdapter.setWeekP();
+                        } else if (selectDate == SelectDate.DAY) {
+                            calenderDayAdapter.setWeekP();
                         }
                     } else if (lastDx < 0) {
                         if (selectDate == SelectDate.MONTH) {
                             calenderMonthAdapter.setMonthM();
                         } else if (selectDate == SelectDate.WEEK) {
                             calenderWeekAdapter.setWeekM();
+                        } else if (selectDate == SelectDate.DAY) {
+                            calenderDayAdapter.setWeekM();
                         }
                     }
                 }

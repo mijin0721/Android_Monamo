@@ -78,6 +78,7 @@ public class CalenderWeekAdapter extends RecyclerView.Adapter<CalenderWeekAdapte
         ((MainActivity) context).setTextViewYearMonthWeek(year, month, week);
         updateWeekendTexts();
     }
+
     public CalenderWeekAdapter(Calendar calendar, Context context, MemoList memoList) {
         this.context = context;
         memoListViewModel = new MemoListViewModel(context);
@@ -106,6 +107,7 @@ public class CalenderWeekAdapter extends RecyclerView.Adapter<CalenderWeekAdapte
     public void onBindViewHolder(@NonNull CalenderWeekAdapter.DateViewHolder holder, int position) {
         dayList = calenderAdapterViewModel.generateMonthCalendar(year, month);
         ((MainActivity) context).setTextViewYearMonthWeek(year, month, week);
+        ((MainActivity) context).setMemoTitle(memoList.getTitle());
 
         if (!check) {
             int rows = 7;
@@ -113,7 +115,6 @@ public class CalenderWeekAdapter extends RecyclerView.Adapter<CalenderWeekAdapte
             week = index / rows;
             check = true;
         }
-        Log.d("TEST", "week: " + week);
 
         initCalenderDayView(holder);
     }
