@@ -14,18 +14,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hagoshda.monamo.MainActivity;
 import com.hagoshda.monamo.R;
 import com.hagoshda.monamo.model.MemoList;
+import com.hagoshda.monamo.model.MoneyMemo;
 import com.hagoshda.monamo.viewModel.CalenderAdapterViewModel;
 import com.hagoshda.monamo.viewModel.MemoListViewModel;
+import com.hagoshda.monamo.viewModel.MoneyViewModel;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class CalenderWeekAdapter extends RecyclerView.Adapter<CalenderWeekAdapter.DateViewHolder>{
 
     private Context context;
     private CalenderAdapterViewModel calenderAdapterViewModel;
     private MemoListViewModel memoListViewModel;
+    private MoneyViewModel moneyViewModel;
     private MemoList memoList;
 
     private int month;
@@ -117,6 +121,12 @@ public class CalenderWeekAdapter extends RecyclerView.Adapter<CalenderWeekAdapte
         }
 
         initCalenderDayView(holder);
+
+        if (memoList.getMemoType() == MemoList.MemoType.EXPENSE_TRACKER) {
+            moneyViewModel = new MoneyViewModel(context, memoList.getDbName());
+            initContext(holder);
+            clickShowMemo(holder);
+        }
     }
 
     @Override
@@ -129,6 +139,15 @@ public class CalenderWeekAdapter extends RecyclerView.Adapter<CalenderWeekAdapte
         String[] theWeeks = {"sun", "mon", "tue", "wed", "thu", "fri", "sat"};
         for (int i = 0; i < 7; i++) {
             holder.days[i].setText(theWeeks[i] + " " + dayList.get(week*7 + i));
+        }
+    }
+
+    private void initContext(CalenderWeekAdapter.DateViewHolder holder) {
+        for (int i = 0; i < 7; i++) {
+            if (memoList.getMemoType() == MemoList.MemoType.EXPENSE_TRACKER) {
+                MoneyMemo moneyMemo = moneyViewModel.getMemo(MoneyMemo.formatDate(year, month, Integer.parseInt(dayList.get(week*7 + i))));
+                setTextViewMoneyList(holder, i, moneyMemo);
+            }
         }
     }
 
@@ -169,5 +188,41 @@ public class CalenderWeekAdapter extends RecyclerView.Adapter<CalenderWeekAdapte
 
     public void updateWeekendTexts() {
         notifyDataSetChanged();
+    }
+
+    private void setTextViewMoneyList(DateViewHolder holder, int count, MoneyMemo money) {
+        String text = "";
+        if (money.getPlanMoney() != 0) {
+            text = "📝: " + money.getPlanMoney();
+        } else {
+            text = "\t";
+        }
+
+        if (money.getCarryMoney() != 0) {
+            text += "\n💸: " + money.getCarryMoney();
+        } else {
+            text += "\t";
+        }
+
+        holder.contexts[count].setText(text);
+    }
+
+    private void clickShowMemo(CalenderWeekAdapter.DateViewHolder holder) {
+        for (int i = 0; i < 7; i++) {
+            final int index = i;
+            if (!Objects.equals(dayList.get(i), "0")) {
+                int finalI = i;
+                holder.contexts[i].setOnClickListener(v -> {
+                    if (memoList.getMemoType() == MemoList.MemoType.EXPENSE_TRACKER) {
+                        String key = MoneyMemo.formatDate(year, month - 1, Integer.parseInt(dayList.get(week*7 + index)));
+                        moneyViewModel.showMemoDialog(key, () -> {
+                            MoneyMemo money = moneyViewModel.getMemo(key);
+                            setTextViewMoneyList(holder, finalI, money);
+//                        setReviewTextView(holder, year,month-1, localDate.getDayOfMonth());
+                        });
+                    }
+                });
+            }
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.hagoshda.monamo.model;
 
+import android.util.Log;
+
 public class MoneyMemo {
     private String day = "";
     private int planMoney = 0;

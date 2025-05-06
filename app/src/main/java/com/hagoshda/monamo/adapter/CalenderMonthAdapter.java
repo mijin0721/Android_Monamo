@@ -2,6 +2,7 @@ package com.hagoshda.monamo.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,18 +16,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hagoshda.monamo.MainActivity;
 import com.hagoshda.monamo.model.MemoList;
 import com.hagoshda.monamo.R;
+import com.hagoshda.monamo.model.MoneyMemo;
 import com.hagoshda.monamo.viewModel.CalenderAdapterViewModel;
 import com.hagoshda.monamo.viewModel.MemoListViewModel;
+import com.hagoshda.monamo.viewModel.MoneyViewModel;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class CalenderMonthAdapter extends RecyclerView.Adapter<CalenderMonthAdapter.DateViewHolder>{
 
     private Context context;
     private CalenderAdapterViewModel calenderAdapterViewModel;
     private MemoListViewModel memoListViewModel;
+    private MoneyViewModel moneyViewModel;
     private MemoList memoList;
 
     private int month;
@@ -111,7 +116,15 @@ public class CalenderMonthAdapter extends RecyclerView.Adapter<CalenderMonthAdap
         if (calenderAdapterViewModel.checkMonth(month)) {
             dayList = calenderAdapterViewModel.initCalender(year, month);
             initCalenderDayView(holder);
-//            clickShowMemo(holder);
+
+
+            if (memoList.getMemoType() == MemoList.MemoType.EXPENSE_TRACKER) {
+                Log.d("TEST", memoList.getTitle());
+                moneyViewModel = new MoneyViewModel(context, memoList.getDbName());
+            }
+
+            initContext(holder);
+            clickShowMemo(holder);
         }
     }
 
@@ -207,13 +220,19 @@ public class CalenderMonthAdapter extends RecyclerView.Adapter<CalenderMonthAdap
             } else {
                 holder.weekendTexts[i].setText(dayList.get(i));
             }
-
-//            String today = MoneyMemo.formatDate(year, month-1, Integer.parseInt(dayList.get(i)));
-//            MoneyMemo money = moneyViewModel.getMemo(today);
-//            setTextViewMoneyList(holder, i, money);
         }
+    }
 
-//        setReviewTextView(holder, year, month-1, localDate.getDayOfMonth());
+    private void initContext(DateViewHolder holder) {
+        for (int i = 0; i < 42; i++) {
+            if (!dayList.get(i).equals("0")) {
+                if (memoList.getMemoType() == MemoList.MemoType.EXPENSE_TRACKER) {
+                    String day = MoneyMemo.formatDate(year, month, Integer.parseInt(dayList.get(i)));
+                    MoneyMemo moneyMemo = moneyViewModel.getMemo(day);
+                    setTextViewMoneyList(holder, i, moneyMemo);
+                }
+            }
+        }
     }
 
     /*
@@ -229,24 +248,30 @@ public class CalenderMonthAdapter extends RecyclerView.Adapter<CalenderMonthAdap
         }
     }
 
-    private void clickShowMemo(CalenderAdapter.DateViewHolder holder) {
+     */
+
+
+
+    private void clickShowMemo(DateViewHolder holder) {
         for (int i = 0; i < dayList.size(); i++) {
             final int index = i;
             if (!Objects.equals(dayList.get(i), "0")) {
                 int finalI = i;
                 holder.weekendLL[i].setOnClickListener(v -> {
-                    String key = MoneyMemo.formatDate(year, month-1, Integer.parseInt(dayList.get(index)));
-                    showMemoDialog(key, () -> {
-                        MoneyMemo money = moneyViewModel.getMemo(key);
-                        setTextViewMoneyList(holder, finalI, money);
-                        setReviewTextView(holder, year,month-1, localDate.getDayOfMonth());
-                    });
+                    if (memoList.getMemoType() == MemoList.MemoType.EXPENSE_TRACKER) {
+                        String key = MoneyMemo.formatDate(year, month - 1, Integer.parseInt(dayList.get(index)));
+                        moneyViewModel.showMemoDialog(key, () -> {
+                            MoneyMemo money = moneyViewModel.getMemo(key);
+                            setTextViewMoneyList(holder, finalI, money);
+//                        setReviewTextView(holder, year,month-1, localDate.getDayOfMonth());
+                        });
+                    }
                 });
             }
         }
     }
 
-    private void setTextViewMoneyList(CalenderAdapter.DateViewHolder holder, int count, MoneyMemo money) {
+    private void setTextViewMoneyList(DateViewHolder holder, int count, MoneyMemo money) {
         if (money.getPlanMoney() != 0) {
             holder.weekendTextList.get(count)[0].setText("📝: " + money.getPlanMoney());
         } else {
@@ -260,47 +285,5 @@ public class CalenderMonthAdapter extends RecyclerView.Adapter<CalenderMonthAdap
         }
     }
 
-    private void showMemoDialog(String dateKey, OnMemoSavedListener listener) {
-        LinearLayout layout = new LinearLayout(context);
-        layout.setOrientation(LinearLayout.VERTICAL);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(dateKey + " 추가");
-
-        layout.setPadding(50, 40, 50, 10);
-        final EditText plan = new EditText(context);
-        final EditText carry = new EditText(context);
-
-        if (moneyViewModel.getMemo(dateKey).getPlanMoney() != 0) {
-            plan.setText(String.valueOf(moneyViewModel.getMemo(dateKey).getPlanMoney()));
-        }
-
-        if (moneyViewModel.getMemo(dateKey).getCarryMoney() != 0) {
-            carry.setText(String.valueOf(moneyViewModel.getMemo(dateKey).getCarryMoney()));
-        }
-
-        layout.addView(plan);
-        layout.addView(carry);
-
-        builder.setView(layout);
-
-        builder.setPositiveButton("저장", (dialog, which) -> {
-            String planMemo = plan.getText().toString();
-            if (planMemo.isEmpty()) {
-                planMemo = "0";
-            }
-            String carryMemo = carry.getText().toString();
-            if (carryMemo.isEmpty()) {
-                carryMemo = "0";
-            }
-            MoneyMemo moneyMemo = new MoneyMemo(dateKey, Integer.parseInt(planMemo), Integer.parseInt(carryMemo));
-            moneyViewModel.saveMemo(moneyMemo);
-            listener.onMemoSaved();
-        });
-
-        builder.setNegativeButton("취소", null);
-        builder.show();
-    }
-
-     */
 }

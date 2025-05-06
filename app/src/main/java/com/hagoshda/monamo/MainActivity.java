@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     private MemoListViewModel memoListViewModel;
     private SelectDate selectDate;
 
+    private MenuItem menuItem;
+
     private Context context = null;
 
     @Override
@@ -118,12 +120,12 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                menuItem = item;
                 selectDate = SelectDate.MONTH;
                 lastDx = 0;
                 calenderMonthAdapter.setToday();
-                calenderMonthAdapter = new CalenderMonthAdapter(calendar, context, memoListViewModel.getMemoList(0));
+                calenderMonthAdapter = new CalenderMonthAdapter(calendar, context, memoListViewModel.getMemoList(item.getItemId()));
                 calendarRecyclerView.setAdapter(calenderMonthAdapter);
-                calenderMonthAdapter.setMemoList(item.getItemId());
                 calendarRecyclerView.scrollToPosition(Integer.MAX_VALUE / 2);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
@@ -151,7 +153,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (selectDate != SelectDate.DAY) {
-                    selectDate = SelectDate.DAY;
+                    if (menuItem != null) {
+                        calenderDayAdapter = new CalenderDayAdapter(calendar, context, memoListViewModel.getMemoList(menuItem.getItemId()));
+                    }selectDate = SelectDate.DAY;
                     weekend_name_ll.setVisibility(View.GONE);
                     calendarRecyclerView.setAdapter(calenderDayAdapter);
                     calendarRecyclerView.scrollToPosition(Integer.MAX_VALUE / 2);
@@ -163,6 +167,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (selectDate != SelectDate.WEEK) {
+                    if (menuItem != null) {
+                        calenderWeekAdapter = new CalenderWeekAdapter(calendar, context, memoListViewModel.getMemoList(menuItem.getItemId()));
+                    }
                     selectDate = SelectDate.WEEK;
                     weekend_name_ll.setVisibility(View.GONE);
                     calendarRecyclerView.setAdapter(calenderWeekAdapter);
@@ -175,6 +182,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (selectDate != SelectDate.MONTH) {
+                    if (menuItem != null) {
+                        calenderMonthAdapter = new CalenderMonthAdapter(calendar, context, memoListViewModel.getMemoList(menuItem.getItemId()));
+                    }
                     selectDate = SelectDate.MONTH;
                     weekend_name_ll.setVisibility(View.VISIBLE);
                     calendarRecyclerView.setAdapter(calenderMonthAdapter);
