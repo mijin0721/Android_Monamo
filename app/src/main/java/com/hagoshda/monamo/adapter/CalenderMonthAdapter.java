@@ -36,6 +36,7 @@ public class CalenderMonthAdapter extends RecyclerView.Adapter<CalenderMonthAdap
 
     private int month;
     private int year;
+    private int day;
 
     private LocalDate localDate;
 
@@ -48,6 +49,7 @@ public class CalenderMonthAdapter extends RecyclerView.Adapter<CalenderMonthAdap
         localDate = LocalDate.now();
         year = localDate.getYear();
         month = localDate.getMonthValue();
+        day = localDate.getDayOfMonth();
 
         this.memoList = memoList;
 
@@ -121,6 +123,7 @@ public class CalenderMonthAdapter extends RecyclerView.Adapter<CalenderMonthAdap
             if (memoList.getMemoType() == MemoList.MemoType.EXPENSE_TRACKER) {
                 Log.d("TEST", memoList.getTitle());
                 moneyViewModel = new MoneyViewModel(context, memoList.getDbName());
+                setReviewTextView(holder, year, month, day);
             }
 
             initContext(holder);
@@ -227,7 +230,7 @@ public class CalenderMonthAdapter extends RecyclerView.Adapter<CalenderMonthAdap
         for (int i = 0; i < 42; i++) {
             if (!dayList.get(i).equals("0")) {
                 if (memoList.getMemoType() == MemoList.MemoType.EXPENSE_TRACKER) {
-                    String day = MoneyMemo.formatDate(year, month, Integer.parseInt(dayList.get(i)));
+                    String day = MoneyMemo.formatDate(year, month-1, Integer.parseInt(dayList.get(i)));
                     MoneyMemo moneyMemo = moneyViewModel.getMemo(day);
                     setTextViewMoneyList(holder, i, moneyMemo);
                 }
@@ -235,20 +238,20 @@ public class CalenderMonthAdapter extends RecyclerView.Adapter<CalenderMonthAdap
         }
     }
 
-    /*
-    private void setReviewTextView(CalenderAdapter.DateViewHolder holder, int year, int month, int day) {
-        String plan =  "📝: " +  moneyViewModel.getMonthPlan(year, month);
-        String planToday = "📝to" + day + ": " + moneyViewModel.getMonthPlanToToday(year, month, day);
-        String carry = "💸: " + moneyViewModel.getMonthCarry(year, month);
 
-        if (month == localDate.getMonthValue()-1) {
+    private void setReviewTextView(CalenderMonthAdapter.DateViewHolder holder, int year, int month, int day) {
+        String plan =  "📝: " +  moneyViewModel.getMonthPlan(year, month-1);
+        String planToday = "📝to" + day + ": " + moneyViewModel.getMonthPlanToToday(year, month-1, day);
+        String carry = "💸: " + moneyViewModel.getMonthCarry(year, month-1);
+
+        if (month == localDate.getMonthValue()) {
             holder.calender_review_tv.setText(plan + "    " + planToday + "    " + carry);
         } else {
             holder.calender_review_tv.setText(plan + "    " + carry);
         }
     }
 
-     */
+
 
 
 
@@ -263,7 +266,7 @@ public class CalenderMonthAdapter extends RecyclerView.Adapter<CalenderMonthAdap
                         moneyViewModel.showMemoDialog(key, () -> {
                             MoneyMemo money = moneyViewModel.getMemo(key);
                             setTextViewMoneyList(holder, finalI, money);
-//                        setReviewTextView(holder, year,month-1, localDate.getDayOfMonth());
+                        setReviewTextView(holder, year,month, localDate.getDayOfMonth());
                         });
                     }
                 });
@@ -272,6 +275,7 @@ public class CalenderMonthAdapter extends RecyclerView.Adapter<CalenderMonthAdap
     }
 
     private void setTextViewMoneyList(DateViewHolder holder, int count, MoneyMemo money) {
+        Log.d("TEST",  money.getDay()+ " / " + money.getMoney());
         if (money.getPlanMoney() != 0) {
             holder.weekendTextList.get(count)[0].setText("📝: " + money.getPlanMoney());
         } else {
